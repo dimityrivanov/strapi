@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tables",
+  "info": {
+    "singularName": "table",
+    "pluralName": "tables",
+    "displayName": "Table",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "occupied": {
+      "type": "boolean"
+    },
+    "table_uuid": {
+      "type": "uid",
+      "required": true
+    }
+  }
+}

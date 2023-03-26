@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_enums_beverage_sizes",
+  "info": {
+    "displayName": "BeverageSize",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "enumeration",
+      "enum": [
+        "tall",
+        "grande",
+        "vendi"
+      ],
+      "default": "tall"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}
