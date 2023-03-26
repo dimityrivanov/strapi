@@ -8,7 +8,7 @@ const stripe = require('stripe')('sk_test_MwaUHxwoYwjncVDQNi1yUGSX008jSPXA4b');
 const { createCoreController } = require('@strapi/strapi').factories;
 
 
-const YOUR_DOMAIN = 'http://localhost:64164';
+const YOUR_DOMAIN = 'https://site-production-8405.up.railway.app/index.html';
 
 const fromDecimalToInt = (number) => parseInt(number * 100);
 
@@ -111,7 +111,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 mode: 'payment',
                 payment_method_types: ['card'],
                 customer_email: email,
-                success_url: `${YOUR_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
+                success_url: `${YOUR_DOMAIN}?success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${YOUR_DOMAIN}?success=false`,
             });
             return {
