@@ -14,7 +14,16 @@ module.exports = [
       },
     },
   },
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      //origin: "*",
+      origin: ["https://site-production-8405.up.railway.app"],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+      headers: "*",
+      keepHeaderOnError: true,
+    }
+  },
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
@@ -22,4 +31,5 @@ module.exports = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  'global::request_signature'
 ];
