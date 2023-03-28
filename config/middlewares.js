@@ -31,8 +31,5 @@ module.exports = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
-  'api::category.request-signature',
-  'api::item.request-signature',
-  'api::order.request-signature',
-  'api::table.request-signature',
+  'global::request-signature',
 ];
