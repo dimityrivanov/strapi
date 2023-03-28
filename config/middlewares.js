@@ -18,7 +18,7 @@ module.exports = [
     name: 'strapi::cors',
     config: {
       //origin: "*",
-      origin: ["https://site-production-8405.up.railway.app"],
+      origin: ["https://site-production-8405.up.railway.app", "https://restaurantmenu.up.railway.app"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
       headers: "*",
       keepHeaderOnError: true,
