@@ -16,7 +16,7 @@ module.exports = () => {
 
         // const expectedSignature = '56ac656c7f932c5b775be28949e90af9a2356eae2826539f10ab6526a0eec762';
         if (!ctx.request['url'].includes("admin") && !ctx.request['url'].includes('content-manager')) {
-            if (ctx.request['url'].includes("order") || ctx.request['url'].includes("table") || ctx.request['url'].includes("category") || ctx.request['url'].includes("item")) {
+            if (ctx.request['url'].includes("orders") || ctx.request['url'].includes("tables") || ctx.request['url'].includes("categories") || ctx.request['url'].includes("items")) {
                 const generatedSignature = generateSignature(
                     'fUjXn2r5u8x/A?D(G-KaPdSgVkYp3s6v',
                     ctx.request['method'],
