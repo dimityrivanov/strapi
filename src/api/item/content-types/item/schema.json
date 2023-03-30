@@ -19,6 +19,16 @@
       "type": "component",
       "repeatable": true,
       "component": "price-component.item-price"
+    },
+    "picture": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
