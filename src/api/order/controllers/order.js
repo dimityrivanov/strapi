@@ -43,19 +43,47 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         return { data, meta };
     },
 
+    // async validateOrder(ctx) {
+    //     console.log(JSON.parse(ctx.request.body));
+    //     ctx.request.body = JSON.parse(ctx.request.body);
+    //     // ctx.request.body['session'] = JSON.parse(ctx.request.body['session']);
+    //     ctx.request.body['data']['products'] = JSON.parse(ctx.request.body['data']['products']);
+    //     ctx.request.body['data']['table'] = JSON.parse(ctx.request.body['data']['table']);
+
+    //     const stripe_session = await stripe.checkout.sessions.retrieve(
+    //         ctx.request.body['session']
+    //     );
+
+    //     if (stripe_session['status'] == 'complete') {
+    //         await super.create(ctx);
+    //     }
+
+    //     return stripe_session['status'] == 'complete';
+    // },
+
     async validateOrder(ctx) {
-        console.log(JSON.parse(ctx.request.body));
+        // console.log(ctx.request.body);
         ctx.request.body = JSON.parse(ctx.request.body);
-        // ctx.request.body['session'] = JSON.parse(ctx.request.body['session']);
+        // console.log(ctx.request.body);
         ctx.request.body['data']['products'] = JSON.parse(ctx.request.body['data']['products']);
         ctx.request.body['data']['table'] = JSON.parse(ctx.request.body['data']['table']);
+        // console.log(ctx.request.body);
 
         const stripe_session = await stripe.checkout.sessions.retrieve(
-            ctx.request.body['session']
+            ctx.request.body['data']['stripeid']
         );
 
         if (stripe_session['status'] == 'complete') {
-            await super.create(ctx);
+            await strapi.entityService.update('api::table.table', ctx.request.body['data']['table'], {
+                data: {
+                    occupied: true,
+                },
+            });
+
+            ctx.request.body['publishedAt'] = Date.now();
+            ctx.request.body['data']['publishedAt'] = Date.now();
+
+            await strapi.entityService.create('api::order.order', ctx.request.body);
         }
 
         return stripe_session['status'] == 'complete';
