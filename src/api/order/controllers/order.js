@@ -117,7 +117,11 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             }
         });
 
-
+        //add 0.50BGN revenew
+        lineItems.push({
+            price: 'price_1MtoBEC3qMNWee2XMG4ShF1q',
+            quantity: 1,
+        });
 
         try {
             const session = await stripe.checkout.sessions.create({

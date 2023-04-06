@@ -29,6 +29,9 @@
     "orderCompleted": {
       "type": "boolean",
       "default": false
+    },
+    "username": {
+      "type": "string"
     }
   }
 }
