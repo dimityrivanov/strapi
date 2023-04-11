@@ -145,6 +145,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 customer_email: email,
                 success_url: `${YOUR_DOMAIN}?success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${YOUR_DOMAIN}?success=false`,
+                customer_creation: "if_required"
             });
             return {
                 url: session.url
