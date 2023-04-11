@@ -122,7 +122,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 line_items: lineItems,
                 mode: 'payment',
                 payment_method_types: ['card'],
-                customer_email: email,
+                // customer_email: email,
                 success_url: `${YOUR_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${YOUR_DOMAIN}?success=false`,
                 customer: userFound.stripe_customer_id
