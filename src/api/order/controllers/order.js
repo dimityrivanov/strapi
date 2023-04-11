@@ -17,7 +17,6 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
         ctx.request.body = JSON.parse(ctx.request.body);
 
         //TODO: Push Notification
-
         const { data, meta } = await super.update(ctx);
 
         return { data, meta };
@@ -25,12 +24,12 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
 
     async create(ctx) {
-
+        // console.log(ctx.request.body);
         ctx.request.body = JSON.parse(ctx.request.body);
         // console.log(ctx.request.body);
         ctx.request.body['data']['products'] = JSON.parse(ctx.request.body['data']['products']);
         ctx.request.body['data']['table'] = JSON.parse(ctx.request.body['data']['table']);
-        //console.log(ctx.request.body);
+        // console.log(ctx.request.body);
 
         const tableUpdate = await strapi.entityService.update('api::table.table', ctx.request.body['data']['table'], {
             data: {
@@ -42,24 +41,6 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
         return { data, meta };
     },
-
-    // async validateOrder(ctx) {
-    //     console.log(JSON.parse(ctx.request.body));
-    //     ctx.request.body = JSON.parse(ctx.request.body);
-    //     // ctx.request.body['session'] = JSON.parse(ctx.request.body['session']);
-    //     ctx.request.body['data']['products'] = JSON.parse(ctx.request.body['data']['products']);
-    //     ctx.request.body['data']['table'] = JSON.parse(ctx.request.body['data']['table']);
-
-    //     const stripe_session = await stripe.checkout.sessions.retrieve(
-    //         ctx.request.body['session']
-    //     );
-
-    //     if (stripe_session['status'] == 'complete') {
-    //         await super.create(ctx);
-    //     }
-
-    //     return stripe_session['status'] == 'complete';
-    // },
 
     async validateOrder(ctx) {
         // console.log(ctx.request.body);
@@ -91,15 +72,11 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
 
     async processOrder(ctx) {
-        // stripe.checkout.sessions.listLineItems(
-        //     'cs_test_b1Cx9ejmw5I64xrw0YrhF5dd2rz7sReyO9uLGEUgc4xMDNLgXwse2D66T8',
-        //     { limit: 100 },
-        //     function (err, lineItems) {
-        //         // asynchronously called
-        //         console.log(lineItems);
-        //     }
-        // );
         const { email, products } = ctx.request.body;
+
+        const userFound = await strapi.db.query('plugin::users-permissions.user').findOne({
+            where: { email: email }
+        })
 
         var productsAsJson = JSON.parse(products);
 
@@ -117,11 +94,14 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             }
         });
 
-        //add 0.50BGN revenew
+
+        //this is the administrational tax
         lineItems.push({
             price: 'price_1MtoBEC3qMNWee2XMG4ShF1q',
             quantity: 1,
         });
+
+
 
         try {
             const session = await stripe.checkout.sessions.create({
@@ -143,9 +123,9 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 mode: 'payment',
                 payment_method_types: ['card'],
                 customer_email: email,
-                success_url: `${YOUR_DOMAIN}?success?session_id={CHECKOUT_SESSION_ID}`,
+                success_url: `${YOUR_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${YOUR_DOMAIN}?success=false`,
-                customer_creation: "if_required"
+                customer: userFound.stripe_customer_id
             });
             return {
                 url: session.url
