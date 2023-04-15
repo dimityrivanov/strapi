@@ -33,7 +33,9 @@ module.exports = () => {
                 //console.log(generatedSignature !== ctx.request.header['x-app-signature']);
 
                 if (singaturesAreSame === false) {
-                    //console.log("Wrong signature");
+                    console.log("Wrong signature");
+                    console.log(generatedSignature);
+                    console.log(ctx.request.header['x-app-signature']);
                     return {};
                 }
             }
