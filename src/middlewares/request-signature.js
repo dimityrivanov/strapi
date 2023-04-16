@@ -28,7 +28,7 @@ module.exports = () => {
                 // console.log(generatedSignature);
 
                 // console.log(ctx.request.header['x-app-signature']);
-                const singaturesAreSame = (generatedSignature === ctx.request.header['x-app-signature']) || ctx.request.header['x-app-signature'] === 'test';
+                const singaturesAreSame = (generatedSignature === ctx.request.header['x-app-signature']);
                 //console.log(singaturesAreSame);
                 //console.log(generatedSignature !== ctx.request.header['x-app-signature']);
 

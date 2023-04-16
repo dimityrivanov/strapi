@@ -72,7 +72,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
 
 
     async processOrder(ctx) {
-        const { email, products } = ctx.request.body;
+        const { email, products, origin } = ctx.request.body;
 
         const userFound = await strapi.db.query('plugin::users-permissions.user').findOne({
             where: { email: email }
@@ -123,8 +123,8 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
                 mode: 'payment',
                 payment_method_types: ['card'],
                 // customer_email: email,
-                success_url: `${YOUR_DOMAIN}?success?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${YOUR_DOMAIN}?success=false`,
+                success_url: `${origin}?success?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${origin}?success=false`,
                 customer: userFound.stripe_customer_id
             });
             return {
